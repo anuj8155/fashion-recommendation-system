@@ -6,41 +6,40 @@ A deep learning-based fashion recommendation system that uses ResNet50 for featu
 
 This system allows users to upload a fashion item image and get recommendations for similar items from a pre-processed dataset. It uses transfer learning with ResNet50 to extract meaningful features from fashion images and employs cosine similarity to find the most similar items.
 
-
-### 📁 Project Structure
+## 📁 Project Structure
 
 ```
 fashion-recommender/
 │
-├── 📄 app.py                    → Feature extraction and preprocessing script
-│   ├── Processes entire dataset
-│   └── Generates embeddings.pkl & filenames.pkl
+├── 📄 app.py                    # Feature extraction and preprocessing script
+│   └── → Processes entire dataset
+│   └── → Generates embeddings.pkl & filenames.pkl
 │
-├── 🌐 main.py                   → Streamlit web application
-│   ├── User interface for recommendations
-│   └── Handles file uploads and displays results
+├── 🌐 main.py                   # Streamlit web application
+│   └── → User interface for recommendations
+│   └── → Handles file uploads and displays results
 │
-├── 🧪 test.py                   → Testing script with OpenCV visualization
-│   ├── Tests system with sample images
-│   └── Displays results using OpenCV
+├── 🧪 test.py                   # Testing script with OpenCV visualization
+│   └── → Tests system with sample images
+│   └── → Displays results using OpenCV
 │
 ├── 📊 Generated Files:
-│   ├── embeddings.pkl           → Serialized feature vectors
-│   └── filenames.pkl            → Serialized image file paths
+│   ├── embeddings.pkl           # Serialized feature vectors
+│   └── filenames.pkl            # Serialized image file paths
 │
 ├── 📁 Directories:
-│   ├── images/                  → Fashion dataset images
+│   ├── images/                  # Fashion dataset images
 │   │   ├── item_001.jpg
 │   │   ├── item_002.jpg
 │   │   └── ... (dataset images)
 │   │
-│   ├── uploads/                 → User uploaded images
+│   ├── uploads/                 # User uploaded images
 │   │   └── (temporary storage)
 │   │
-│   └── sample/                  → Sample images for testing
+│   └── sample/                  # Sample images for testing
 │       └── shirt.jpg
 │
-└── 📋 README.md                 → This documentation file
+└── 📋 README.md                 # This documentation file
 ```
 
 ## 🔧 Dependencies
@@ -53,7 +52,6 @@ pip install opencv-python
 pip install pillow
 pip install numpy
 pip install tqdm
-
 ```
 
 ## 📋 File Descriptions
@@ -116,71 +114,102 @@ pip install tqdm
 
 ### Phase 1: Dataset Preprocessing (app.py)
 ```
-Dataset Images → ResNet50 Model → Feature Extraction → Global Max Pooling
-     ↓              ↓                ↓                    ↓
-   (images/)    Processing      Extract Features    Reduce Dimensions
-                                      ↓
-L2 Normalization ← Save Files ← Feature Vectors
-     ↓              ↓
-Normalize       embeddings.pkl
-Features        filenames.pkl
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Dataset       │───▶│   ResNet50       │───▶│   Feature       │
+│   Images        │    │   Model          │    │   Extraction    │
+│   (images/)     │    │   Processing     │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                                         │
+                                                         ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Save          │◀───│   L2             │◀───│   Global Max    │
+│   embeddings.pkl│    │   Normalization  │    │   Pooling       │
+│   filenames.pkl │    │                  │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
 ### Phase 2: Web Application Flow (main.py)
 ```
-User Opens Streamlit App
-         ↓
-Upload Fashion Image
-         ↓
-Save to uploads/ Directory
-         ↓
-Extract Features from Uploaded Image
-         ↓
-Load Pre-computed Features (embeddings.pkl)
-         ↓
-k-NN Algorithm - Find Similar Items
-         ↓
-Display 5 Most Similar Items in Grid Layout
+┌─────────────────┐
+│   User Opens    │
+│   Streamlit App │
+└─────────┬───────┘
+          │
+          ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Upload        │───▶│   Save to        │───▶│   Extract       │
+│   Fashion Image │    │   uploads/       │    │   Features      │
+└─────────────────┘    └──────────────────┘    └─────────┬───────┘
+                                                         │
+                                                         ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Display 5     │◀───│   k-NN Algorithm │◀───│   Load Pre-     │
+│   Similar Items │    │   Find Neighbors │    │   computed      │
+│   in Grid       │    │                  │    │   Features      │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
 ### Phase 3: Testing Flow (test.py)
 ```
-Sample Image (shirt.jpg)
-         ↓
-Feature Extraction
-         ↓
-Load Pre-computed Features (embeddings.pkl)
-         ↓
-k-NN Search Algorithm
-         ↓
-Find 6 Nearest Neighbors (including query)
-         ↓
-OpenCV Display Results
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Sample Image  │───▶│   Feature        │───▶│   Load          │
+│   (shirt.jpg)   │    │   Extraction     │    │   embeddings.pkl│
+└─────────────────┘    └──────────────────┘    └─────────┬───────┘
+                                                         │
+                                                         ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   OpenCV        │◀───│   Find 6 Nearest │◀───│   k-NN Search   │
+│   Display       │    │   Neighbors      │    │   Algorithm     │
+│   Results       │    │   (inc. query)   │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
 ### Complete System Architecture
 ```
-
-PREPROCESSING PHASE
-         ↓
-┌─────────────────────────────────────────┐
-│  Images → ResNet50 → GlobalMax → L2     │
-│  Directory  Feature   Pooling    Norm   │
-└─────────────────┬───────────────────────┘
-                  ↓
-         embeddings.pkl & filenames.pkl
-                  ↓
-    ┌─────────────┼─────────────┐
-    ↓             ↓             ↓
-STREAMLIT     TESTING      FUTURE
-WEB APP       SCRIPT    INTEGRATIONS
-    ↓             ↓             ↓
-User Upload   Sample Image   REST API
-    ↓             ↓             ↓
-k-NN Search   OpenCV       Database
-    ↓         Display      Integration
-Grid Display
-Results
+                    ┌─────────────────────────────────────────┐
+                    │           PREPROCESSING PHASE           │
+                    └─────────────────┬───────────────────────┘
+                                      │
+    ┌─────────────────────────────────▼─────────────────────────────────┐
+    │                                                                   │
+    │  ┌─────────────┐  ┌──────────────┐  ┌─────────────┐  ┌─────────┐ │
+    │  │   Images    │─▶│   ResNet50   │─▶│ GlobalMax   │─▶│   L2    │ │
+    │  │ Directory   │  │   Feature    │  │ Pooling     │  │  Norm   │ │
+    │  │             │  │ Extraction   │  │             │  │         │ │
+    │  └─────────────┘  └──────────────┘  └─────────────┘  └─────────┘ │
+    │                                                                   │
+    └─────────────────────────┬───────────────────────────────────────┘
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │  embeddings.pkl │
+                    │  filenames.pkl  │
+                    └─────────┬───────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌───────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  STREAMLIT    │    │     TESTING     │    │    FUTURE       │
+│  WEB APP      │    │     SCRIPT      │    │  INTEGRATIONS   │
+│               │    │                 │    │                 │
+│ ┌───────────┐ │    │ ┌─────────────┐ │    │ ┌─────────────┐ │
+│ │User Upload│ │    │ │Sample Image │ │    │ │   REST API  │ │
+│ │           │ │    │ │   Testing   │ │    │ │             │ │
+│ └─────┬─────┘ │    │ └─────┬───────┘ │    │ └─────────────┘ │
+│       │       │    │       │         │    │                 │
+│       ▼       │    │       ▼         │    │ ┌─────────────┐ │
+│ ┌───────────┐ │    │ ┌─────────────┐ │    │ │  Database   │ │
+│ │k-NN Search│ │    │ │OpenCV Display│ │    │ │ Integration │ │
+│ │           │ │    │ │             │ │    │ │             │ │
+│ └─────┬─────┘ │    │ └─────────────┘ │    │ └─────────────┘ │
+│       │       │    │                 │    │                 │
+│       ▼       │    │                 │    │                 │
+│ ┌───────────┐ │    │                 │    │                 │
+│ │Grid Display│ │    │                 │    │                 │
+│ │Results    │ │    │                 │    │                 │
+│ └───────────┘ │    │                 │    │                 │
+└───────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
 ## 🚀 Setup and Usage
@@ -191,7 +220,7 @@ Results
 3. Create 'uploads' and 'sample' directories
 
 ### Step 2: Extract Features
-```
+```bash
 python app.py
 ```
 This will:
@@ -209,7 +238,7 @@ This will:
 - Allow you to upload images and get recommendations
 
 ### Step 4: Test the System (Optional)
-```
+```bash
 python test.py
 ```
 This will:
