@@ -160,7 +160,7 @@ OpenCV Display Results
 
 ### Complete System Architecture
 ```
-```
+
 PREPROCESSING PHASE
          ↓
 ┌─────────────────────────────────────────┐
