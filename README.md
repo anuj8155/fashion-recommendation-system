@@ -6,9 +6,10 @@ A deep learning-based fashion recommendation system that uses ResNet50 for featu
 
 This system allows users to upload a fashion item image and get recommendations for similar items from a pre-processed dataset. It uses transfer learning with ResNet50 to extract meaningful features from fashion images and employs cosine similarity to find the most similar items.
 
-## 📁 Project Structure
 
-\`\`\`
+### 📁 Project Structure
+
+```
 fashion-recommender/
 │
 ├── 📄 app.py                    → Feature extraction and preprocessing script
@@ -40,11 +41,11 @@ fashion-recommender/
 │       └── shirt.jpg
 │
 └── 📋 README.md                 → This documentation file
-\`\`\`
+```
 
 ## 🔧 Dependencies
 
-\`\`\`bash
+```
 pip install tensorflow
 pip install streamlit
 pip install scikit-learn
@@ -52,7 +53,8 @@ pip install opencv-python
 pip install pillow
 pip install numpy
 pip install tqdm
-\`\`\`
+
+```
 
 ## 📋 File Descriptions
 
@@ -113,7 +115,7 @@ pip install tqdm
 ## 🔄 System Workflow
 
 ### Phase 1: Dataset Preprocessing (app.py)
-\`\`\`
+```
 Dataset Images → ResNet50 Model → Feature Extraction → Global Max Pooling
      ↓              ↓                ↓                    ↓
    (images/)    Processing      Extract Features    Reduce Dimensions
@@ -122,10 +124,10 @@ L2 Normalization ← Save Files ← Feature Vectors
      ↓              ↓
 Normalize       embeddings.pkl
 Features        filenames.pkl
-\`\`\`
+```
 
 ### Phase 2: Web Application Flow (main.py)
-\`\`\`
+```
 User Opens Streamlit App
          ↓
 Upload Fashion Image
@@ -139,10 +141,10 @@ Load Pre-computed Features (embeddings.pkl)
 k-NN Algorithm - Find Similar Items
          ↓
 Display 5 Most Similar Items in Grid Layout
-\`\`\`
+```
 
 ### Phase 3: Testing Flow (test.py)
-\`\`\`
+```
 Sample Image (shirt.jpg)
          ↓
 Feature Extraction
@@ -154,10 +156,11 @@ k-NN Search Algorithm
 Find 6 Nearest Neighbors (including query)
          ↓
 OpenCV Display Results
-\`\`\`
+```
 
 ### Complete System Architecture
-\`\`\`
+```
+```
 PREPROCESSING PHASE
          ↓
 ┌─────────────────────────────────────────┐
@@ -178,7 +181,7 @@ k-NN Search   OpenCV       Database
     ↓         Display      Integration
 Grid Display
 Results
-\`\`\`
+```
 
 ## 🚀 Setup and Usage
 
@@ -188,27 +191,27 @@ Results
 3. Create 'uploads' and 'sample' directories
 
 ### Step 2: Extract Features
-\`\`\`bash
+```
 python app.py
-\`\`\`
+```
 This will:
 - Process all images in the 'images' directory
 - Generate 'embeddings.pkl' and 'filenames.pkl' files
 - May take time depending on dataset size
 
 ### Step 3: Run the Web Application
-\`\`\`bash
+```bash
 streamlit run main.py
-\`\`\`
+```
 This will:
 - Start the Streamlit web server
 - Open the application in your browser
 - Allow you to upload images and get recommendations
 
 ### Step 4: Test the System (Optional)
-\`\`\`bash
+```
 python test.py
-\`\`\`
+```
 This will:
 - Test the system with the sample image
 - Display results using OpenCV windows
@@ -228,7 +231,7 @@ This will:
 - Returns top 5 most similar items (excluding the query image)
 
 ### Model Architecture
-\`\`\`
+```
 Input Image (224x224x3)
 ↓
 ResNet50 (without top layer)
@@ -240,7 +243,7 @@ Feature Vector (2048 dimensions)
 L2 Normalization
 ↓
 Similarity Search
-\`\`\`
+```
 
 ## 📊 Performance Considerations
 
