@@ -9,7 +9,7 @@ This system allows users to upload a fashion item image and get recommendations 
 ## 📁 Project Structure
 
 ```
-fashion-recommender/
+fashion-recommendation-system/
 │
 ├── 📄 app.py                    # Feature extraction and preprocessing script
 │   └── → Processes entire dataset
